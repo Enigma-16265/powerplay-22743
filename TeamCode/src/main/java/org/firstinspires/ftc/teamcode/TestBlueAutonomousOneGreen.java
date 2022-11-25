@@ -27,6 +27,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 */
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -50,6 +51,7 @@ Open CV Stuff
     private OpenCvCamera phoneCam;
     private ContourPipelineGreen pipeline;
 
+    private Telemetry telemetry;
 
     private double crThreshHigh = 150;
     private double crThreshLow = 120;
@@ -141,7 +143,7 @@ OpenCV Stuff
         });
 
 
-
+/*
         double rectangleArea = pipeline.getRectArea();
         double position = pipeline.getRectMidpointX();
 
@@ -206,7 +208,7 @@ OpenCV Stuff
         telemetry.update();
         // Only if you are using ftcdashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetrydb = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(phoneCam, 10);
         telemetry.update();
         waitForStart();
@@ -220,7 +222,7 @@ OpenCV Stuff
             position = pipeline.getRectMidpointX();
             sleep(1500);
 
-                /*
+
                 //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
                 gyroDrive(0.20, 1000, 0);
 
@@ -263,7 +265,6 @@ OpenCV Stuff
                 sleep(100000);
         }
 
-    }
 
     /**
     * Robot drives in straight line and corrects drift using gyro sensor with PID control.
