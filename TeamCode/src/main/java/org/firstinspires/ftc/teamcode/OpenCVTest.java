@@ -51,7 +51,7 @@ public class OpenCVTest extends LinearOpMode {
     private OpenCvCamera phoneCam;
     private ContourPipelineGreen pipeline;
 
-    private Telemetry telemetry;
+    private Telemetry telemetrydb;
 
     private double crThreshHigh = 150;
     private double crThreshLow = 120;
@@ -210,9 +210,9 @@ OpenCV Stuff
 
         // Only if you are using ftcdashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        telemetrydb = new MultipleTelemetry(telemetrydb, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(phoneCam, 10);
-        telemetry.update();
+        telemetrydb.update();
         waitForStart();
         runtime.reset();
 
