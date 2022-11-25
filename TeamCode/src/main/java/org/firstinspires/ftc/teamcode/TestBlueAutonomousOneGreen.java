@@ -45,6 +45,9 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 public class TestBlueAutonomousOneGreen extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
+    private BNO055IMU       imu         = null;
+    private Orientation angles;
+
     /*
     Open CV Stuff
      */
@@ -95,9 +98,6 @@ public class TestBlueAutonomousOneGreen extends LinearOpMode {
     int NumLiftStops;
     double LiftLeftOffset;
 
-    BNO055IMU imu;                // Additional Gyro device
-    Orientation angles;
-
     private final static double ServoPosition = 0.5;
     private final static double ServoSpeed = 0.1;
 
@@ -112,7 +112,11 @@ public class TestBlueAutonomousOneGreen extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-
+        // define initialization values for IMU, and then initialize it.
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
 /*
 OpenCV Stuff
  */
@@ -190,13 +194,6 @@ OpenCV Stuff
         BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
 
         telemetry.addData("Mode", "working...");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
