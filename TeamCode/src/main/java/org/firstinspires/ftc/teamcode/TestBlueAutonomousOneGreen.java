@@ -72,6 +72,7 @@ Open CV Stuff
 /*
 Mechanisms
  */
+    // declare all of the servo and motor objects
     private DcMotor BackRight;
     private Servo budsterupanddown;
     private Servo ElliottispotatoClaw;
@@ -81,6 +82,7 @@ Mechanisms
     private DcMotor FrontLeft;
     private DcMotor FrontRight;
 
+    // declare position variables
     double NewLiftPos;
     double LiftHeight;
     double FbFHeight;
@@ -100,6 +102,7 @@ Mechanisms
     static final double DRIVE_SPEED = 0.45;     // Nominal speed for better accuracy.
     static final double TURN_SPEED = 0.40;     // Nominal half speed for better accuracy.
 
+    //PID control constants
     static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
     static final double P_TURN_COEFF = 0.025;     // Larger is more responsive, but also less stable
     static final double P_DRIVE_COEFF = 0.007;     // Larger is more responsive, but also less stable
@@ -217,16 +220,19 @@ OpenCV Stuff
             position = pipeline.getRectMidpointX();
             sleep(1500);
 
-
-
-
+                /*
+                //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
                 gyroDrive(0.20, 1000, 0);
 
-                /*
+                //robot turns at TURN_SPEED -95 degrees
                 gyroTurn(TURN_SPEED, -95);
+                //ALWAYS hold for at least 0.3 seconds after a turn
                 gyroHold(TURN_SPEED, -95, 0.5);
 
+                //robot drives straight
+                //SEE ANGLE MATCHES PREVIOUS TURN ANGLE
                 gyroDrive(0.45, 230, -95);
+                //always sleep after a drive
                 sleep(200);
 
                 gyroTurn(TURN_SPEED, -130);
@@ -253,13 +259,21 @@ OpenCV Stuff
 
                  */
 
-
+                //in case autonomous finishes before 30 seconds, the while loop won't run again
                 sleep(100000);
         }
 
     }
 
-
+    /**
+    * Robot drives in straight line and corrects drift using gyro sensor with PID control.
+    *
+    * @param speed    The speed that the robot drives at (always positive)
+    * @param distance The distance, in encoder ticks, that the robot drives
+    *                 (positive goes forward, negative goes backward)
+    * @param angle    The angle that the robot drives at (must match any previous)
+    *                 turn angles) [-180, 180]
+     */
     public void gyroDrive(double speed,
                           int distance,
                           double angle) {
@@ -362,48 +376,6 @@ OpenCV Stuff
         }
     }
 
-    public void Drive (int frontRightDistance, int frontLeftDistance, int rearRightDistance, int rearLeftDistance, double speed){
-
-
-        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        FrontRight.setTargetPosition(frontRightDistance);
-        FrontLeft.setTargetPosition(frontLeftDistance);
-        BackRight.setTargetPosition(rearRightDistance);
-        BackLeft.setTargetPosition(rearLeftDistance);
-
-        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        FrontRight.setPower(speed);
-        FrontLeft.setPower(speed);
-        BackRight.setPower(speed);
-        BackLeft.setPower(speed);
-
-
-        while (FrontRight.isBusy() && FrontLeft.isBusy() && BackRight.isBusy() && BackLeft.isBusy() && opModeIsActive()) {
-            telemetry.addData("FrontRightPosition", FrontRight.getCurrentPosition());
-            telemetry.addData("FrontLeftPosition", FrontLeft.getCurrentPosition());
-            telemetry.update();
-        }
-
-        FrontRight.setPower(0);
-        FrontLeft.setPower(0);
-        BackRight.setPower(0);
-        BackLeft.setPower(0);
-
-        FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        sleep(500);
-    }
 
     /**
      * Method to obtain & hold a heading for a finite amount of time
@@ -509,6 +481,61 @@ OpenCV Stuff
      */
     public double getSteer(double error, double PCoeff) {
         return Range.clip(error * PCoeff, -1, 1);
+    }
+
+    /**
+     * Robot moves (strafe, turn, straight line) given distance in encoder ticks for each drive
+     * motor and speed without correcting for drift.
+     *
+     * @param frontRightDistance Distance in encoder ticks (positive or negative values
+     *                           determines whether the robt drives forward or backward,
+     *                           turns, or strafes)
+     * @param frontLeftDistance  ^^
+     * @param rearRightDistance  ^^
+     * @param rearLeftDistance   ^^
+     * @param speed              Speed that each motor moves
+     */
+    public void Drive (int frontRightDistance, int frontLeftDistance, int rearRightDistance, int rearLeftDistance, double speed){
+
+
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FrontRight.setTargetPosition(frontRightDistance);
+        FrontLeft.setTargetPosition(frontLeftDistance);
+        BackRight.setTargetPosition(rearRightDistance);
+        BackLeft.setTargetPosition(rearLeftDistance);
+
+        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FrontRight.setPower(speed);
+        FrontLeft.setPower(speed);
+        BackRight.setPower(speed);
+        BackLeft.setPower(speed);
+
+
+        while (FrontRight.isBusy() && FrontLeft.isBusy() && BackRight.isBusy() && BackLeft.isBusy() && opModeIsActive()) {
+            telemetry.addData("FrontRightPosition", FrontRight.getCurrentPosition());
+            telemetry.addData("FrontLeftPosition", FrontLeft.getCurrentPosition());
+            telemetry.update();
+        }
+
+        FrontRight.setPower(0);
+        FrontLeft.setPower(0);
+        BackRight.setPower(0);
+        BackLeft.setPower(0);
+
+        FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        sleep(500);
     }
 
 }
