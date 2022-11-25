@@ -204,9 +204,9 @@ OpenCV Stuff
         telemetry.update();
         // Only if you are using ftcdashboard
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetrydb = new MultipleTelemetry(telemetrydb, dashboard.getTelemetry());
+        telemetrydb = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(phoneCam, 10);
-        telemetry.update();
+        telemetrydb.update();
         waitForStart();
         runtime.reset();
 
