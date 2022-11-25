@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 /*
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -22,24 +26,52 @@ import org.openftc.easyopencv.OpenCvPipeline;
 //import org.openftc.easyopencv.OpenCvWebcam;
 */
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
+import org.opencv.core.Scalar;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvInternalCamera;
 
-
-
-
-
-@Autonomous(name= "Test Autonomous")
+@Config //Disable if not using FTC Dashboard https://github.com/PinkToTheFuture/OpenCV_FreightFrenzy_2021-2022#opencv_freightfrenzy_2021-2022
+@Autonomous(name= "Test Blue Autonomous One Green")
 //@Disabled
-public class TestAutonomous extends LinearOpMode {
+public class TestBlueAutonomousOneGreen extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
-    //OpenCvWebcam robotWebcam;
-    //OpenCV.SkystoneDeterminationPipeline pipeline;
+/*
+Open CV Stuff
+ */
+    private OpenCvCamera phoneCam;
+    private ContourPipelineGreen pipeline;
 
+
+    private double crThreshHigh = 150;
+    private double crThreshLow = 120;
+    private double cbThreshHigh = 255;
+    private double cbThreshLow = 255;
+
+    private int minRectangleArea = 2000;
+    private double leftBarcodeRangeBoundary = 0.3; //i.e 30% of the way across the frame from the left
+    private double rightBarcodeRangeBoundary = 0.6; //i.e 60% of the way across the frame from the left
+
+    private double lowerRuntime = 0;
+    private double upperRuntime = 0;
+
+    // Pink Range                                      Y      Cr     Cb
+    public static Scalar scalarLowerYCrCb = new Scalar(  0.0, 0.0, 0.0);
+    public static Scalar scalarUpperYCrCb = new Scalar(255.0, 120.0, 120.0);
+
+    int x = 0;
+
+/*
+Mechanisms
+ */
     private DcMotor BackRight;
     private Servo budsterupanddown;
     private Servo ElliottispotatoClaw;
@@ -72,15 +104,43 @@ public class TestAutonomous extends LinearOpMode {
     static final double P_TURN_COEFF = 0.025;     // Larger is more responsive, but also less stable
     static final double P_DRIVE_COEFF = 0.007;     // Larger is more responsive, but also less stable
 
-//    OpenCvCamera phoneCam;
-
     @Override
     public void runOpMode() throws InterruptedException {
 
 
+/*
+OpenCV Stuff
+ */
+
+// OpenCV webcam
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        //OpenCV Pipeline
+
+        pipeline = new ContourPipelineGreen(0.2, 0.2, 0.2, 0.2);
+
+        pipeline.configureScalarLower(scalarLowerYCrCb.val[0], scalarLowerYCrCb.val[1], scalarLowerYCrCb.val[2]);
+        pipeline.configureScalarUpper(scalarUpperYCrCb.val[0], scalarUpperYCrCb.val[1], scalarUpperYCrCb.val[2]);
+
+        phoneCam.setPipeline(pipeline);
+
+        // Webcam Streaming
+        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                phoneCam.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
 
 
 
+        double rectangleArea = pipeline.getRectArea();
+        double position = pipeline.getRectMidpointX();
 
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
         budsterupanddown = hardwareMap.get(Servo.class, "budsterupanddown");
@@ -141,13 +201,24 @@ public class TestAutonomous extends LinearOpMode {
         telemetry.addData("Mode", "ready");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
-
+        // Only if you are using ftcdashboard
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(phoneCam, 10);
+        telemetry.update();
         waitForStart();
         runtime.reset();
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
+
+            rectangleArea = pipeline.getRectArea();
+            position = pipeline.getRectMidpointX();
+            sleep(1500);
+
+
+
 
                 gyroDrive(0.20, 1000, 0);
 
