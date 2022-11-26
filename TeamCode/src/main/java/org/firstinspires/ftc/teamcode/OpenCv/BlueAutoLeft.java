@@ -368,10 +368,10 @@ OpenCV / April Tags
             telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
 
-            /*
+
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
             gyroDrive(0.20, 1000, 0);
-
+/*
             //robot turns at TURN_SPEED -95 degrees
             gyroTurn(TURN_SPEED, -95);
             //ALWAYS hold for at least 0.3 seconds after a turn
