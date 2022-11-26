@@ -106,11 +106,16 @@ OpenCV / April Tags
     int NumLiftStops;
     double LiftLeftOffset;
 
+    private static final double CATAPULT_IN = 0.79;
+    private static final double CATAPULT_OUT = 0.265;
+
+
     private final static double ServoPosition = 0.5;
     private final static double ServoSpeed = 0.1;
 
     static final double DRIVE_SPEED = 0.45;     // Nominal speed for better accuracy.
     static final double TURN_SPEED = 0.40;     // Nominal half speed for better accuracy.
+    static final double GRABBIT = 0.52;     // Nominal half speed for better accuracy.
 
     //PID control constants
     static final double HEADING_THRESHOLD = 1;      // As tight as we can make it with an integer gyro
@@ -368,9 +373,13 @@ OpenCV / April Tags
             telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
 
-
+            ElliottispotatoClaw.setPosition(GRABBIT);
+            sleep(800);
+            budsterupanddown.setPosition(.65);
+            sleep(800);
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
-            gyroDrive(0.20, 1000, 0);
+            gyroDrive(0.40, 1500, 0);
+
 /*
             //robot turns at TURN_SPEED -95 degrees
             gyroTurn(TURN_SPEED, -95);
