@@ -375,7 +375,7 @@ OpenCV / April Tags
 
             ElliottispotatoClaw.setPosition(.42);
             sleep(1500);
-            budsterupanddown.setPosition(.55);
+            budsterupanddown.setPosition(.58);
             sleep(1500);
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
             gyroDrive(0.40, 1500, 0);
