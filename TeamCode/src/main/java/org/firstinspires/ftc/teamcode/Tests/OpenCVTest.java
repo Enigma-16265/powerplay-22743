@@ -1,8 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Tests;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -39,7 +36,6 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
-@Config //Disable if not using FTC Dashboard https://github.com/PinkToTheFuture/OpenCV_FreightFrenzy_2021-2022#opencv_freightfrenzy_2021-2022
 @Autonomous(name= "OpenCV Test")
 //@Disabled
 public class OpenCVTest extends LinearOpMode {
@@ -208,10 +204,6 @@ OpenCV Stuff
         telemetry.update();
          */
 
-        // Only if you are using ftcdashboard
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetrydb = new MultipleTelemetry(telemetrydb, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(phoneCam, 10);
         telemetrydb.update();
         waitForStart();
         runtime.reset();

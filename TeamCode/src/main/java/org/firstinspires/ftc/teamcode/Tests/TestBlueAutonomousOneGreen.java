@@ -1,8 +1,5 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Tests;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -39,13 +36,12 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
-@Config //Disable if not using FTC Dashboard https://github.com/PinkToTheFuture/OpenCV_FreightFrenzy_2021-2022#opencv_freightfrenzy_2021-2022
 @Autonomous(name= "Test Blue Autonomous One Green")
 //@Disabled
 public class TestBlueAutonomousOneGreen extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
-    private BNO055IMU       imu         = null;
+    private BNO055IMU imu = null;
     private Orientation angles;
 
     /*
@@ -111,17 +107,18 @@ public class TestBlueAutonomousOneGreen extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+/*
         // define initialization values for IMU, and then initialize it.
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+ */
 /*
 OpenCV Stuff
  */
 
-// OpenCV webcam
+// OpenCV phonecam
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
         //OpenCV Pipeline
@@ -202,11 +199,6 @@ OpenCV Stuff
         telemetry.addData("Mode", "ready");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
-        // Only if you are using ftcdashboard
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetrydb = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(phoneCam, 10);
-        telemetrydb.update();
         waitForStart();
         runtime.reset();
 
