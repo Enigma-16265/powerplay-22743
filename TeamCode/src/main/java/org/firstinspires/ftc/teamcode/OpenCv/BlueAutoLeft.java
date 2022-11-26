@@ -167,7 +167,7 @@ OpenCV / April Tags
         FbFHeight = 0.3;
 
         // Lift Variables
-        LiftHeight = 0.15;
+        LiftHeight = 0.11; // was 15 and raises up on init
         LiftLeftOffset = -0.022;
         MaxLiftHeight = 0.6;
         minLiftHeight = 0.12;
@@ -234,8 +234,8 @@ OpenCV / April Tags
          */
         while (!isStarted() && !isStopRequested())
         {
-            telemetry.addData("Mode", "running");
-            telemetry.update();
+            //telemetry.addData("Mode", "running");
+            //telemetry.update();
 
             sleep(1000);
 
@@ -317,6 +317,8 @@ OpenCV / April Tags
         /* Actually do something useful */
         if (tagOfInterest == null){
             sleep(1500);
+            telemetry.addData("Op Mode Null", "No Tag Read");
+            telemetry.update();
 
 
             /*
@@ -362,10 +364,57 @@ OpenCV / April Tags
             sleep(100000);
         } else if (tagOfInterest.id == Middle) {
             // do middle
+            sleep(1000);
+            telemetry.addLine("Op Mode Middle - Read Tag ID 10");
+            telemetry.update();
+            //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
+            gyroDrive(0.20, 1000, 0);
+
+            //robot turns at TURN_SPEED -95 degrees
+            gyroTurn(TURN_SPEED, -95);
+            //ALWAYS hold for at least 0.3 seconds after a turn
+            gyroHold(TURN_SPEED, -95, 0.5);
+
+            //robot drives straight
+            //SEE ANGLE MATCHES PREVIOUS TURN ANGLE
+            gyroDrive(0.45, 230, -95);
+            //always sleep after a drive
+            sleep(200);
+
+            gyroTurn(TURN_SPEED, -130);
+            gyroHold(TURN_SPEED, -130, 0.3);
+
+            gyroDrive(0.45, -1000, -130);
+            sleep(200);
+
+            //leftLinkage.setPosition(LEFT_LINKAGE_UP);
+            //rightLinkage.setPosition(RIGHT_LINKAGE_UP);
+            //sleep(200);
+
+            gyroTurn(TURN_SPEED, -130);
+            gyroHold(TURN_SPEED, -130, 0.3);
+
+            gyroDrive(DRIVE_SPEED, 700, -130); //180
+            sleep(200);
+
+            gyroTurn(TURN_SPEED, -45);
+            gyroHold(TURN_SPEED, -45, 0.5);
+
+            gyroDrive(0.45, 550, -45);
+            sleep(200);
+
         } else if (tagOfInterest.id == Right) {
             // do right
+            sleep(1000);
+            telemetry.addLine("Op Mode Right - Read Tag ID 15");
+            telemetry.update();
+            sleep(100000);
         } else if (tagOfInterest.id == Left) {
             // do left
+            sleep(1000);
+            telemetry.addLine("Op Mode Left - Read Tag ID 5");
+            telemetry.update();
+            sleep(100000);
         }
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
