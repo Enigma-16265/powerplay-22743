@@ -367,6 +367,8 @@ OpenCV / April Tags
             sleep(1000);
             telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
+
+            /*
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
             gyroDrive(0.20, 1000, 0);
 
@@ -402,7 +404,8 @@ OpenCV / April Tags
 
             gyroDrive(0.45, 550, -45);
             sleep(200);
-
+*/
+            sleep(100000);
         } else if (tagOfInterest.id == Right) {
             // do right
             sleep(1000);
