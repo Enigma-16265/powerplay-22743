@@ -373,10 +373,10 @@ OpenCV / April Tags
             telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
 
-            ElliottispotatoClaw.setPosition(GRABBIT);
-            sleep(800);
-            budsterupanddown.setPosition(.65);
-            sleep(800);
+            ElliottispotatoClaw.setPosition(.42);
+            sleep(1500);
+            budsterupanddown.setPosition(.55);
+            sleep(1500);
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
             gyroDrive(0.40, 1500, 0);
 
