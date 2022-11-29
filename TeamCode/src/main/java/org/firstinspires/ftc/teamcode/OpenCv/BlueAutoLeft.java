@@ -374,11 +374,26 @@ OpenCV / April Tags
             telemetry.update();
 
             ElliottispotatoClaw.setPosition(.42);
-            sleep(1500);
-            budsterupanddown.setPosition(.58);
-            sleep(1500);
+            sleep(800);
+            //budsterupanddown.setPosition(.58); // .58 is
+            budsterupanddown.setPosition(.90); // .58 is
+            sleep(800);
+            //Drive(250, -250, -250, 250, 0.5);
+            Drive(inchesToTicks(17.5), inchesToTicks(-17.5), inchesToTicks(-17.5), inchesToTicks(17.5), 0.5);
+            sleep(500);
+            gyroDrive(0.30, inchesToTicks(4), 0);
+            sleep(500);
+            ElliottispotatoClaw.setPosition(.55);
+            sleep(500);
+            gyroDrive(0.30, inchesToTicks(-4), 0);
+            sleep(500);
+
+            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.5);
+            sleep(500);
+            budsterupanddown.setPosition(.58); // .58 is
+            sleep(500);
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
-            gyroDrive(0.40, 1500, 0);
+            gyroDrive(0.40, inchesToTicks(33.5), 0);
 
 /*
             //robot turns at TURN_SPEED -95 degrees
@@ -444,6 +459,10 @@ OpenCV / April Tags
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 
+
+    public int inchesToTicks( double inches ) {
+        return (int)(inches * 1500 / 33.5);
+    }
     /**
      * Robot drives in straight line and corrects drift using gyro sensor with PID control.
      *
