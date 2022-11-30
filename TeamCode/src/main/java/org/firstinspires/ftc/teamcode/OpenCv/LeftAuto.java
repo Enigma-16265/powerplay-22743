@@ -41,15 +41,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
-import java.util.List;
 
-@Autonomous(name= "Blue Autonomous Left")
-public class BlueAutoLeft extends LinearOpMode
+@Autonomous(name= "Left Auto")
+public class LeftAuto extends LinearOpMode
 {
 
-/*
-OpenCV / April Tags
- */
+    /*
+    OpenCV / April Tags
+     */
     OpenCvCamera phoneCam;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -321,77 +320,39 @@ OpenCV / April Tags
 
         /* Actually do something useful */
         if (tagOfInterest == null){
-            sleep(1500);
-            telemetry.addData("Op Mode Null", "No Tag Read");
-            telemetry.update();
-
-
-            /*
-                //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
-                gyroDrive(0.20, 1000, 0);
-
-                //robot turns at TURN_SPEED -95 degrees
-                gyroTurn(TURN_SPEED, -95);
-                //ALWAYS hold for at least 0.3 seconds after a turn
-                gyroHold(TURN_SPEED, -95, 0.5);
-
-                //robot drives straight
-                //SEE ANGLE MATCHES PREVIOUS TURN ANGLE
-                gyroDrive(0.45, 230, -95);
-                //always sleep after a drive
-                sleep(200);
-
-                gyroTurn(TURN_SPEED, -130);
-                gyroHold(TURN_SPEED, -130, 0.3);
-
-                gyroDrive(0.45, -1000, -130);
-                sleep(200);
-
-                //leftLinkage.setPosition(LEFT_LINKAGE_UP);
-                //rightLinkage.setPosition(RIGHT_LINKAGE_UP);
-                //sleep(200);
-
-                gyroTurn(TURN_SPEED, -130);
-                gyroHold(TURN_SPEED, -130, 0.3);
-
-                gyroDrive(DRIVE_SPEED, 700, -130); //180
-                sleep(200);
-
-                gyroTurn(TURN_SPEED, -45);
-                gyroHold(TURN_SPEED, -45, 0.5);
-
-                gyroDrive(0.45, 550, -45);
-                sleep(200);
-
-                 */
-
-            //in case autonomous finishes before 30 seconds, the while loop won't run again
-            sleep(100000);
-        } else if (tagOfInterest.id == Middle) {
             // do middle
             sleep(1000);
             telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
-
+            // Grab Cone
             ElliottispotatoClaw.setPosition(.42);
             sleep(800);
+            // Lift 4bar
             //budsterupanddown.setPosition(.58); // .58 is
             budsterupanddown.setPosition(.90); // .58 is
             sleep(800);
-            //Drive(250, -250, -250, 250, 0.5);
-            Drive(inchesToTicks(17.5), inchesToTicks(-17.5), inchesToTicks(-17.5), inchesToTicks(17.5), 0.5);
+            //Drive forward 1 inch so it doesn't drag the wall
+            gyroDrive(0.30, inchesToTicks(1), 0);
             sleep(500);
-            gyroDrive(0.30, inchesToTicks(4), 0);
+            // Strafe over to line up with pole
+            Drive(inchesToTicks(-9), inchesToTicks(9), inchesToTicks(9), inchesToTicks(-9), 0.5);
             sleep(500);
+            // Drive forward towards pole
+            gyroDrive(0.30, inchesToTicks(5.5), 0);
+            sleep(500);
+            // drop cone
             ElliottispotatoClaw.setPosition(.55);
             sleep(500);
+            // backup from pole
             gyroDrive(0.30, inchesToTicks(-4), 0);
             sleep(500);
-
-            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.5);
+            // Strafe back to the middle of the parking zone
+            Drive(inchesToTicks(14), inchesToTicks(-14), inchesToTicks(-14), inchesToTicks(14), 0.5);
             sleep(500);
+            // Lower the 4 bar
             budsterupanddown.setPosition(.58); // .58 is
             sleep(500);
+            // Drive forward to the middle of the zone
             //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
             gyroDrive(0.40, inchesToTicks(33.5), 0);
 
@@ -430,18 +391,121 @@ OpenCV / April Tags
             sleep(200);
 */
             sleep(100000);
+        } else if (tagOfInterest.id == Middle) {
+            // do middle
+            sleep(1000);
+            telemetry.addLine("Op Mode Middle - Read Tag ID 10");
+            telemetry.update();
+            // Grab Cone
+            ElliottispotatoClaw.setPosition(.42);
+            sleep(800);
+            // Lift 4bar
+            //budsterupanddown.setPosition(.58); // .58 is
+            budsterupanddown.setPosition(.90); // .58 is
+            sleep(800);
+            //Drive forward 1 inch so it doesn't drag the wall
+            gyroDrive(0.30, inchesToTicks(1), 0);
+            sleep(500);
+            // Strafe over to line up with pole
+            Drive(inchesToTicks(-9), inchesToTicks(9), inchesToTicks(9), inchesToTicks(-9), 0.5);
+            sleep(500);
+            // Drive forward towards pole
+            gyroDrive(0.30, inchesToTicks(5.5), 0);
+            sleep(500);
+            // drop cone
+            ElliottispotatoClaw.setPosition(.55);
+            sleep(500);
+            // backup from pole
+            gyroDrive(0.30, inchesToTicks(-4), 0);
+            sleep(500);
+            // Strafe back to the middle of the parking zone
+            Drive(inchesToTicks(14), inchesToTicks(-14), inchesToTicks(-14), inchesToTicks(14), 0.5);
+            sleep(500);
+            // Lower the 4 bar
+            budsterupanddown.setPosition(.58); // .58 is
+            sleep(500);
+            // Drive forward to the middle of the zone
+            //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
+            gyroDrive(0.40, inchesToTicks(33.5), 0);
+
+            sleep(100000);
         } else if (tagOfInterest.id == Right) {
             // do right
             sleep(1000);
-            telemetry.addLine("Op Mode Right - Read Tag ID 15");
+            telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
+            // Grab Cone
+            ElliottispotatoClaw.setPosition(.42);
+            sleep(800);
+            // Lift 4bar
+            //budsterupanddown.setPosition(.58); // .58 is
+            budsterupanddown.setPosition(.90); // .58 is
+            sleep(800);
+            //Drive forward 1 inch so it doesn't drag the wall
+            gyroDrive(0.30, inchesToTicks(1), 0);
+            sleep(500);
+            // Strafe over to line up with pole
+            Drive(inchesToTicks(-9), inchesToTicks(9), inchesToTicks(9), inchesToTicks(-9), 0.5);
+            sleep(500);
+            // Drive forward towards pole
+            gyroDrive(0.30, inchesToTicks(5.5), 0);
+            sleep(500);
+            // drop cone
+            ElliottispotatoClaw.setPosition(.55);
+            sleep(500);
+            // backup from pole
+            gyroDrive(0.30, inchesToTicks(-4), 0);
+            sleep(500);
+            // Strafe back to the middle of the parking zone
+            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.5);
+            sleep(500);
+            // Lower the 4 bar
+            budsterupanddown.setPosition(.58); // .58 is
+            sleep(500);
+            // Drive forward to the middle of the zone
+            //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
+            gyroDrive(0.40, inchesToTicks(33.5), 0);
+
             sleep(100000);
         } else if (tagOfInterest.id == Left) {
             // do left
             sleep(1000);
-            telemetry.addLine("Op Mode Left - Read Tag ID 5");
+            telemetry.addLine("Op Mode Middle - Read Tag ID 10");
             telemetry.update();
+            // Grab Cone
+            ElliottispotatoClaw.setPosition(.42);
+            sleep(800);
+            // Lift 4bar
+            //budsterupanddown.setPosition(.58); // .58 is
+            budsterupanddown.setPosition(.90); // .58 is
+            sleep(800);
+            //Drive forward 1 inch so it doesn't drag the wall
+            gyroDrive(0.30, inchesToTicks(1), 0);
+            sleep(500);
+            // Strafe over to line up with pole
+            Drive(inchesToTicks(-9), inchesToTicks(9), inchesToTicks(9), inchesToTicks(-9), 0.5);
+            sleep(500);
+            // Drive forward towards pole
+            gyroDrive(0.30, inchesToTicks(5.5), 0);
+            sleep(500);
+            // drop cone
+            ElliottispotatoClaw.setPosition(.55);
+            sleep(500);
+            // backup from pole
+            gyroDrive(0.30, inchesToTicks(-4), 0);
+            sleep(500);
+            // Strafe back to the middle of the parking zone
+            Drive(inchesToTicks(41.5), inchesToTicks(-41.5), inchesToTicks(-41.5), inchesToTicks(41.5), 0.5);
+            sleep(500);
+            // Lower the 4 bar
+            budsterupanddown.setPosition(.58); // .58 is
+            sleep(500);
+            // Drive forward to the middle of the zone
+            //robot drives at 0.20 speed, 1000 encoder ticks, at 0 degrees
+            gyroDrive(0.40, inchesToTicks(33.5), 0);
+
             sleep(100000);
+
         }
 
         /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
