@@ -25,6 +25,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -160,10 +161,10 @@ public class LeftAuto extends LinearOpMode
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
         BackLeft.setDirection(DcMotor.Direction.FORWARD);
-        FrontRight.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
 
         budsterupanddown.setDirection(Servo.Direction.REVERSE);
         ElliottispotatoClaw.setDirection(Servo.Direction.REVERSE);
@@ -327,12 +328,12 @@ public class LeftAuto extends LinearOpMode
             telemetry.update();
 
             // Grab Cone
-            ElliottispotatoClaw.setPosition(.42);
+            ElliottispotatoClaw.setPosition(.65);
             sleep(800);
 
             // Lift 4bar
             //budsterupanddown.setPosition(.58); // .58 is
-            budsterupanddown.setPosition(.90); // .58 is
+            budsterupanddown.setPosition(.52); // .58 is
             sleep(800);
 
             //Drive forward 1 inch so it doesn't drag the wall

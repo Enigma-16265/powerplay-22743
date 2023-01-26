@@ -165,6 +165,7 @@ OpenCV / April Tags
         FrontRight.setDirection(DcMotor.Direction.REVERSE);
         BackRight.setDirection(DcMotor.Direction.REVERSE);
 
+
         budsterupanddown.setDirection(Servo.Direction.REVERSE);
         ElliottispotatoClaw.setDirection(Servo.Direction.REVERSE);
         LiftRight.setDirection(Servo.Direction.REVERSE);
@@ -338,7 +339,7 @@ OpenCV / April Tags
 
             // Strafe over to line up with pole
             //Drive(250, -250, -250, 250, 0.5);
-            Drive(inchesToTicks(17.5), inchesToTicks(-17.5), inchesToTicks(-17.5), inchesToTicks(17.5), 0.5);
+            Drive(inchesToTicks(17.5), inchesToTicks(-17.5), inchesToTicks(-17.5), inchesToTicks(17.5), 0.3);
             sleep(500);
 
             // Drive forward towards pole
@@ -354,7 +355,7 @@ OpenCV / April Tags
             sleep(500);
 
             // Strafe back to the middle of the parking zone
-            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.5);
+            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.3);
             sleep(500);
 
             // Lower the 4 bar
@@ -388,7 +389,7 @@ OpenCV / April Tags
 
             // Strafe over to line up with pole
             //Drive(250, -250, -250, 250, 0.5);
-            Drive(inchesToTicks(17.5), inchesToTicks(-17.5), inchesToTicks(-17.5), inchesToTicks(17.5), 0.5);
+            Drive(inchesToTicks(17.5), inchesToTicks(-17.5), inchesToTicks(-17.5), inchesToTicks(17.5), 0.3);
             sleep(500);
 
             // Drive forward towards pole
@@ -404,7 +405,7 @@ OpenCV / April Tags
             sleep(500);
 
             // Strafe back to the middle of the parking zone
-            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.5);
+            Drive(inchesToTicks(-14), inchesToTicks(14), inchesToTicks(14), inchesToTicks(-14), 0.3);
             sleep(500);
 
             // Lower the 4 bar
