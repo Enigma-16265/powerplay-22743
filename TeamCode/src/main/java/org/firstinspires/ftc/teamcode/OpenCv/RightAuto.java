@@ -25,6 +25,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -151,11 +152,12 @@ OpenCV / April Tags
         telemetry.setMsTransmissionInterval(50);
 
 
-        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+
         budsterupanddown = hardwareMap.get(Servo.class, "budsterupanddown");
         ElliottispotatoClaw = hardwareMap.get(Servo.class, "ElliottispotatoClaw");
         LiftRight = hardwareMap.get(Servo.class, "LiftRight");
         LiftLeft = hardwareMap.get(Servo.class, "LiftLeft");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
@@ -329,12 +331,12 @@ OpenCV / April Tags
             telemetry.update();
 
             // Grab Cone
-            ElliottispotatoClaw.setPosition(.42);
+            //ElliottispotatoClaw.setPosition(.42);
             sleep(800);
 
             // Lift 4bar
             //budsterupanddown.setPosition(.58); // .58 is
-            budsterupanddown.setPosition(.90); // .58 is
+            //budsterupanddown.setPosition(.90); // .58 is
             sleep(800);
 
             // Strafe over to line up with pole
@@ -347,7 +349,7 @@ OpenCV / April Tags
             sleep(500);
 
             // drop cone
-            ElliottispotatoClaw.setPosition(.55);
+            //ElliottispotatoClaw.setPosition(.55);
             sleep(500);
 
             // backup from pole
@@ -359,7 +361,7 @@ OpenCV / April Tags
             sleep(500);
 
             // Lower the 4 bar
-            budsterupanddown.setPosition(.58); // .58 is
+            //budsterupanddown.setPosition(.58); // .58 is
             sleep(500);
 
             // Drive forward to the middle of the zone
@@ -379,12 +381,12 @@ OpenCV / April Tags
             telemetry.update();
 
             // Grab Cone
-            ElliottispotatoClaw.setPosition(.42);
+           // ElliottispotatoClaw.setPosition(.42);
             sleep(800);
 
             // Lift 4bar
             //budsterupanddown.setPosition(.58); // .58 is
-            budsterupanddown.setPosition(.90); // .58 is
+            //budsterupanddown.setPosition(.90); // .58 is
             sleep(800);
 
             // Strafe over to line up with pole
@@ -397,7 +399,7 @@ OpenCV / April Tags
             sleep(500);
 
             // drop cone
-            ElliottispotatoClaw.setPosition(.55);
+            //ElliottispotatoClaw.setPosition(.55);
             sleep(500);
 
             // backup from pole
@@ -409,7 +411,7 @@ OpenCV / April Tags
             sleep(500);
 
             // Lower the 4 bar
-            budsterupanddown.setPosition(.58); // .58 is
+            //budsterupanddown.setPosition(.58); // .58 is
             sleep(500);
 
             // Drive forward to the middle of the zone
@@ -428,12 +430,12 @@ OpenCV / April Tags
             telemetry.update();
 
             // Grab Cone
-            ElliottispotatoClaw.setPosition(.42);
+            //ElliottispotatoClaw.setPosition(.42);
             sleep(800);
 
             // Lift 4bar
             //budsterupanddown.setPosition(.58); // .58 is
-            budsterupanddown.setPosition(.90); // .58 is
+            //budsterupanddown.setPosition(.90); // .58 is
             sleep(800);
 
             // Strafe over to line up with pole
@@ -446,7 +448,7 @@ OpenCV / April Tags
             sleep(500);
 
             // drop cone
-            ElliottispotatoClaw.setPosition(.55);
+            //ElliottispotatoClaw.setPosition(.55);
             sleep(500);
 
             // backup from pole
@@ -458,7 +460,7 @@ OpenCV / April Tags
             sleep(500);
 
             // Lower the 4 bar
-            budsterupanddown.setPosition(.58); // .58 is
+            //budsterupanddown.setPosition(.58); // .58 is
             sleep(500);
 
             // Drive forward to the middle of the zone
@@ -476,12 +478,12 @@ OpenCV / April Tags
             telemetry.update();
 
             // Grab Cone
-            ElliottispotatoClaw.setPosition(.42);
+            //ElliottispotatoClaw.setPosition(.42);
             sleep(800);
 
             // Lift 4bar
             //budsterupanddown.setPosition(.58); // .58 is
-            budsterupanddown.setPosition(.90); // .58 is
+            //budsterupanddown.setPosition(.90); // .58 is
             sleep(800);
 
             // Strafe over to line up with pole
@@ -494,7 +496,7 @@ OpenCV / April Tags
             sleep(500);
 
             // drop cone
-            ElliottispotatoClaw.setPosition(.55);
+           // ElliottispotatoClaw.setPosition(.55);
             sleep(500);
 
             // backup from pole
@@ -506,7 +508,7 @@ OpenCV / April Tags
             sleep(500);
 
             // Lower the 4 bar
-            budsterupanddown.setPosition(.58); // .58 is
+            //budsterupanddown.setPosition(.58); // .58 is
             sleep(500);
 
             // Drive forward to the middle of the zone
